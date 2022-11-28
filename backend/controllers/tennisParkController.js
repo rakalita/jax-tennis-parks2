@@ -59,6 +59,28 @@ exports.getTennisPark = async (req, res) => {
 };
 
 exports.updateTennisPark = async (req, res) => {
+  if (req.body.address) {
+    try {
+      const geocodeResponse = await weatherController.geocode(req.body.address);
+      console.log('entry 2');
+      req.body.lat = geocodeResponse.result.addressMatches[0].coordinates.y;
+      req.body.lon = geocodeResponse.result.addressMatches[0].coordinates.x;
+      const response = await weatherController.getWeatherGrid(
+        req.body.lon,
+        req.body.lat
+      );
+
+      req.body.gridNumber = `${response.properties.gridX},${response.properties.gridY}`;
+      console.log('entry 3');
+      console.log(req.body);
+    } catch (err) {
+      res.status(400).json({
+        status: 'error',
+        message: 'Address value is not a valid address',
+      });
+      return;
+    }
+  }
   try {
     const jtp = await TennisPark.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
