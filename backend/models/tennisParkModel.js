@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const tennisParkSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Name is required'],
-    unique: [true, 'A name must be unique'],
+    unique: [true, 'A park name must be unique'],
+    required: [true, 'Park Name is required'],
     trim: true,
   },
   address: {
@@ -24,15 +24,12 @@ const tennisParkSchema = new mongoose.Schema({
   },
   lon: {
     type: Number,
-    required: [true, 'Longitude must have a value'],
   },
   lat: {
     type: Number,
-    required: [true, 'Latitude must have a value'],
   },
   gridNumber: {
     type: String,
-    required: [true, 'GridNumber is required'],
   },
   description: {
     type: String,
@@ -41,6 +38,7 @@ const tennisParkSchema = new mongoose.Schema({
   },
   courts: {
     type: Number,
+    min: [1, 'A park must have at least 1 court'],
   },
   surface: {
     type: String,
