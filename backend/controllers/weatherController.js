@@ -3,13 +3,13 @@ const fetch = require('node-fetch');
 
 exports.getWeatherGrid = async (x, y) => {
   const url = `${process.env.NWS_GRID_API_URL}${y},${x}`;
-  console.log(url);
+  //console.log(url);
   const response = await fetch(url);
   return response.json();
 };
 
 exports.getForecast = async (req, res) => {
-  console.log(`received getForecast request for ${req.params.gridNum}`);
+  //console.log(`received getForecast request for ${req.params.gridNum}`);
   const url = `${process.env.NWS_FORECAST_API_URL}${req.params.gridNum}/forecast`;
   //console.log(url);
   let data;
@@ -33,7 +33,7 @@ exports.getForecast = async (req, res) => {
 };
 
 exports.getHourlyForecast = async (req, res) => {
-  console.log(`received getForecast request for ${req.params.gridNum}`);
+  //console.log(`received getForecast request for ${req.params.gridNum}`);
   const url = `${process.env.NWS_FORECAST_API_URL}${req.params.gridNum}/hourly`;
 
   try {

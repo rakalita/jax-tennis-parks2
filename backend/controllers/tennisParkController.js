@@ -8,6 +8,7 @@ exports.getAllTennisParks = async (req, res) => {
     const tennisParks = await TennisPark.find();
     if (tennisParks) {
       tennisParkCacheArray = tennisParks;
+      //console.log('updating cache' + tennisParks.length);
     }
     res.status(200).json({
       status: 'success',
@@ -62,7 +63,7 @@ exports.updateTennisPark = async (req, res) => {
   if (req.body.address) {
     try {
       const geocodeResponse = await weatherController.geocode(req.body.address);
-      console.log('entry 2');
+      //console.log('entry 2');
       req.body.lat = geocodeResponse.result.addressMatches[0].coordinates.y;
       req.body.lon = geocodeResponse.result.addressMatches[0].coordinates.x;
       const response = await weatherController.getWeatherGrid(
@@ -71,8 +72,8 @@ exports.updateTennisPark = async (req, res) => {
       );
 
       req.body.gridNumber = `${response.properties.gridX},${response.properties.gridY}`;
-      console.log('entry 3');
-      console.log(req.body);
+      // console.log('entry 3');
+      // console.log(req.body);
     } catch (err) {
       res.status(400).json({
         status: 'error',
@@ -130,12 +131,12 @@ exports.deleteTennisPark = async (req, res) => {
 };
 
 exports.createTennisPark = async (req, res, next) => {
-  console.log('entry 1');
-  console.log(req.body);
+  // console.log('entry 1');
+  // console.log(req.body);
   if (req.body.address) {
     try {
       const geocodeResponse = await weatherController.geocode(req.body.address);
-      console.log('entry 2');
+      // console.log('entry 2');
       req.body.lat = geocodeResponse.result.addressMatches[0].coordinates.y;
       req.body.lon = geocodeResponse.result.addressMatches[0].coordinates.x;
       const response = await weatherController.getWeatherGrid(
@@ -144,8 +145,8 @@ exports.createTennisPark = async (req, res, next) => {
       );
 
       req.body.gridNumber = `${response.properties.gridX},${response.properties.gridY}`;
-      console.log('entry 3');
-      console.log(req.body);
+      //  console.log('entry 3');
+      //  console.log(req.body);
     } catch (err) {
       res.status(400).json({
         status: 'error',
@@ -156,18 +157,18 @@ exports.createTennisPark = async (req, res, next) => {
   }
 
   try {
-    console.log('entry 4');
+    // console.log('entry 4');
     const newTennisPark = await TennisPark.create(req.body);
-    console.log('entry 5-after create call');
+    // console.log('entry 5-after create call');
     res.status(201).json({
       status: 'success',
       data: {
         tennispark: newTennisPark,
       },
     });
-    console.log('entry 6');
+    //console.log('entry 6');
   } catch (err) {
-    console.log('had an error - 7');
+    // console.log('had an error - 7');
     res.status(400).json({
       status: 'error',
       message: err.message,
