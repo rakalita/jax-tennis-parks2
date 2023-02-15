@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const TennisPark = require('../models/tennisParkModel');
 const weatherController = require('./weatherController');
 
@@ -158,7 +159,11 @@ exports.createTennisPark = async (req, res, next) => {
 
   try {
     // console.log('entry 4');
-    const newTennisPark = await TennisPark.create(req.body);
+    const newTennisPark = new TennisPark(req.body);
+    await newTennisPark.save({
+      new: true,
+      runValidators: true,
+    });
     // console.log('entry 5-after create call');
     res.status(201).json({
       status: 'success',

@@ -1,4 +1,8 @@
+/* eslint-disable node/no-extraneous-require */
+/* eslint-disable import/no-extraneous-dependencies */
 const mongoose = require('mongoose');
+const mongooseUniqueValidator = require('mongoose-unique-validator');
+const validator = require('validator');
 
 const tennisParkSchema = new mongoose.Schema({
   name: {
@@ -19,8 +23,17 @@ const tennisParkSchema = new mongoose.Schema({
     trim: true,
   },
   league: {
-    type: Array,
-    required: [true, 'League must have at least one value'],
+    type: [String],
+    validate: {
+      validator: function (val) {
+        let result = false;
+        if (Array.isArray(val) && val.length > 0) {
+          result = true;
+        }
+        return result;
+      },
+      message: 'League must have at least one value',
+    },
   },
   lon: {
     type: Number,
@@ -39,11 +52,16 @@ const tennisParkSchema = new mongoose.Schema({
   courts: {
     type: Number,
     min: [1, 'A park must have at least 1 court'],
+    max: [50, 'A park can not have more than 50 courts'],
   },
   surface: {
     type: String,
-    dafault: 'clay',
+    default: 'clay',
     trim: true,
+    enum: {
+      values: ['clay', 'hard', 'mixed'],
+      message: 'Allowed surface values are: clay, hard or mixed',
+    },
   },
   updateDate: {
     type: Date,
