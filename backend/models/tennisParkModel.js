@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable no-plusplus */
 /* eslint-disable node/no-extraneous-require */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -23,18 +24,19 @@ const tennisParkSchema = new mongoose.Schema({
     validate: {
       validator: function (val) {
         let result = false;
-        const phoneCharArray = val.split('-'); // should be 3 elements
-        if (phoneCharArray.length === 3) {
-          for (let i = 0; i < phoneCharArray.length; i++) {
-            if (Number.isNaN(+phoneCharArray[i])) {
-              result = false;
-              break;
-            } else {
-              result = true;
+        if (val === 12) {
+          const phoneCharArray = val.split('-'); // should be 3 elements
+          if (phoneCharArray.length === 3) {
+            for (let i = 0; i < phoneCharArray.length; i++) {
+              if (Number.isNaN(+phoneCharArray[i])) {
+                result = false;
+                break;
+              } else {
+                result = true;
+              }
             }
           }
         }
-
         return result;
       },
       message:
@@ -48,7 +50,9 @@ const tennisParkSchema = new mongoose.Schema({
         let result = false;
         const letters = 'ABCD';
         const levels = '123';
+
         if (Array.isArray(val) && val.length > 0) {
+          // console.log('is Array:' + typeof val);
           for (let i = 0; i < val.length; i++) {
             const charOne = val[i].charAt(0);
             const charTwo = val[i].charAt(1);
